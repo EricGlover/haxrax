@@ -25,6 +25,22 @@ describe("journey to the moon", () => {
     const result = journeyToTheMoon.numberOfPairs(test3);
     expect(result).toEqual(answer3);
   });
+  it("correctly handles case 1, with a reversed pair", () => {
+    let case1 = `5 3
+                 0 1
+                 2 3
+                 4 0`;
+    const result = journeyToTheMoon.numberOfPairs(case1);
+    expect(result).toBe(6);
+  });
+  xit("correctly merges trees when finding duplicates", () => {
+    let test1 = `3 3
+                 0 1
+                 2 3
+                 1 2`;
+    const result = journeyToTheMoon.numberOfPairs(test3);
+    expect(result).toBe(0);
+  });
 
   xdescribe("conversion from string to numbers", () => {
     it("returns an array of numbers", () => {

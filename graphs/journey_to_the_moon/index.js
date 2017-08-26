@@ -17,6 +17,7 @@ let case1 = `5 3
 // });
 // return subArrIndex || false;
 
+//finds the first instance of needle in haystack
 let checkTree = (haystack, needle) => {
   // var subArrIndex;
   for (var i = 0; i < haystack.length; i++) {
@@ -25,6 +26,16 @@ let checkTree = (haystack, needle) => {
     }
   }
   return false;
+};
+//finds all instance of needle in haystack
+let checkTreeAll = (haystack, needle) => {
+  let matches = [];
+  for (var i = 0; i < haystack.length; i++) {
+    if (haystack[i].includes(needle)) {
+      matches.push(i);
+    }
+  }
+  return matches;
 };
 
 class JourneyToTheMoon {
@@ -43,10 +54,23 @@ class JourneyToTheMoon {
     //make a country tree
     var astronautsByCountry = [];
     for (var i = 0; i < pairs.length; i += 2) {
+      //handle edge cases : [0, 0]
+      if (pairs[i] === pairs[i + 1]) throw new Error("incorrect input");
+
       let a1 = this.checkTree(astronautsByCountry, pairs[i]);
       let a2 = this.checkTree(astronautsByCountry, pairs[i + 1]);
       //add both to that country if a1 || a2 !== false
-      if (a1 !== false) {
+      if (a1 && a2) {
+        //merge some tree
+        // console.log("merging");
+        // if (a1.length > 1 || a2.length > 1) {
+        //   console.log("multiples!!!!!!!");
+        // }
+        astronautsByCountry[a1] = astronautsByCountry[a1].concat(
+          astronautsByCountry[a2]
+        );
+        astronautsByCountry.splice(a2, 1);
+      } else if (a1 !== false) {
         astronautsByCountry[a1].push(pairs[i + 1]);
       } else if (a2 !== false) {
         astronautsByCountry[a2].push(pairs[i]);
