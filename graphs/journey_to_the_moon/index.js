@@ -4,6 +4,19 @@ let case1 = `5 3
 2 3
 0 4`
 */
+
+// haystack.find((subArr, index) => {
+//   console.log("subArr = ", subArr);
+//   console.log(`needle = ${needle}, index = ${index}`);
+//   if (subArr.includes(needle)) {
+//     console.log("found things");
+//     subArrIndex = index;
+//     return true;
+//   }
+//   return false;
+// });
+// return subArrIndex || false;
+
 let checkTree = (haystack, needle) => {
   // var subArrIndex;
   for (var i = 0; i < haystack.length; i++) {
@@ -12,17 +25,6 @@ let checkTree = (haystack, needle) => {
     }
   }
   return false;
-  // haystack.find((subArr, index) => {
-  //   console.log("subArr = ", subArr);
-  //   console.log(`needle = ${needle}, index = ${index}`);
-  //   if (subArr.includes(needle)) {
-  //     console.log("found things");
-  //     subArrIndex = index;
-  //     return true;
-  //   }
-  //   return false;
-  // });
-  // return subArrIndex || false;
 };
 
 class JourneyToTheMoon {
@@ -62,26 +64,25 @@ class JourneyToTheMoon {
     for (let i = 0; i < unmentionedAstronauts; i++) {
       astronautsByCountry.push([-1]);
     }
-    console.log(
-      "astronauts = ",
-      n,
-      " astronautsByCountry = ",
-      astronautsByCountry
-    );
-    console.log("country tree is now = ", astronautsByCountry);
+    // console.log(
+    //   "astronauts = ",
+    //   n,
+    //   " astronautsByCountry = ",
+    //   astronautsByCountry
+    // );
+    // console.log("country tree is now = ", astronautsByCountry);
     //do some calculations
     debugger;
-    let total = astronautsByCountry.reduce((result, subArr, index, arr) => {
-      console.log("subArr ", result);
-      console.log(`Outer LOOP: loop# = ${index}, result = ${result}`);
-      let subSum = arr.slice(index).reduce((result, subArr, index, arr) => {
-        console.log(`INNER LOOP: loop# = ${index}, result = ${result}`);
-        if (arr.length - 1 === index) return result;
-        return result + subArr.length * arr.length;
+    let total = astronautsByCountry.reduce((result, subArr, i, arr) => {
+      // console.log("subArr ", result);
+      // console.log(`Outer LOOP: loop# = ${i}, result = ${result}`);
+      let subSum = arr.slice(i + 1).reduce((result, iterArr, j, arr) => {
+        // console.log(`INNER LOOP: loop# = ${j}, result = ${result}`);
+        return result + iterArr.length * subArr.length;
       }, 0);
-      console.log(
-        `Outer LOOP: loop# = ${index}, subSum = ${subSum}, result = ${result}`
-      );
+      // console.log(
+      //   `Outer LOOP: loop# = ${i}, subSum = ${subSum}, result = ${result}`
+      // );
       return result + subSum;
     }, 0);
     console.log("******************     END       *************************");

@@ -20,6 +20,11 @@ describe("journey to the moon", () => {
     const result = journeyToTheMoon.numberOfPairs(case2);
     expect(result).toBe(5);
   });
+  it("correctly handles test 3", () => {
+    let { test3, answer3 } = require("../tests/3");
+    const result = journeyToTheMoon.numberOfPairs(test3);
+    expect(result).toEqual(answer3);
+  });
 
   xdescribe("conversion from string to numbers", () => {
     it("returns an array of numbers", () => {
