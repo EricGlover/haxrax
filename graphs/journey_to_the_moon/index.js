@@ -1,3 +1,5 @@
+///status: semi funcitonal
+
 /*
 let case1 = `5 3
 0 1
