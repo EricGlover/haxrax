@@ -2,6 +2,9 @@
 //THOUGHTS: after some consideration I'm going to attempt the problem in a similar manner to how I 'solved' journey to the moon
 //though I would like to try some fancier graph data structures sometime
 //I considered using a hash map lookup table as well...idk about that
+
+//status : not operational
+//graphs hurt my brain
 /*
 input
 2
@@ -40,16 +43,10 @@ dfs(node current) {
  visit all of current's unvisited neighbors by calling dfs(neighbor)
 }
 */
-//wraps our Nodes so we can do multiple searches
-//fix this later
-// function StackNode(payload) {
-//   return {
-//     payload,
-//     _visited: false
-//   };
-//   // this.payload = payload;
-//   // this._visited = false;
-// }
+/*
+DATA STRUCTURES
+*/
+//GRAPH NODES
 //Nodes are our cities here
 function Node({ libCost = 1, roadCost = 1, name = "ERROR" }) {
   //[list of nodes] neighbors
@@ -65,28 +62,7 @@ Node.prototype.addEdge = function(neighbor) {
   //should make neighbors a set or something
   this._neighbors.push(neighbor);
 };
-//1
-//2, 3
-let dfsStack = (start, name, listOfNodes) => {
-  //set all visited in all nodes to false
-  listOfNodes.forEach(node => (node._visited = false));
-  //make a stack and plop our starting point in
-  const stack = new Stack();
-  stack.push(start);
-  while (!stack.isEmpty()) {
-    let top = stack.top();
-    stack.pop();
-    if (!top._visited) {
-      // console.log("In dfsStack, top = ", top);
-      //check for termination condition (have we reached the node we want to?)
-      if (top._data.name === name) return top;
-      top._visited = true;
-      //add all of top's neighbors to the stack.
-      stack.push(...top._neighbors);
-    }
-  }
-  return null;
-};
+
 //Stack implementation
 //consider changing our stack to handle searching properties on it's own?
 function Stack() {
@@ -118,6 +94,33 @@ Stack.prototype.isEmpty = function() {
 Stack.prototype.top = function() {
   if (this._size <= 0) return null;
   return this._storage[this._size - 1];
+};
+
+/*
+SEARCHING GRAPHS VIA DEPTH-FIRST STACK ALGO
+*/
+//can check all the connections of a given node
+let dfsStack = (start, name, listOfNodes) => {
+  //set all visited in all nodes to false
+  listOfNodes.forEach(node => (node._visited = false)); //I feel like this is cheating somehow....
+  //make a stack and plop our starting point in
+  const stack = new Stack();
+  stack.push(start);
+  console.log("starting our search at ", start);
+  while (!stack.isEmpty()) {
+    let top = stack.top();
+    stack.pop();
+    if (!top._visited) {
+      console.log(top._data.name);
+      // console.log("In dfsStack, top = ", top);
+      //check for termination condition (have we reached the node we want to?)
+      if (top._data.name === name) return top;
+      top._visited = true;
+      //add all of top's neighbors to the stack.
+      stack.push(...top._neighbors);
+    }
+  }
+  return null;
 };
 
 /* BUSINESS LOGIC */
@@ -188,14 +191,6 @@ const populateQuery = commands => {
     let line = el.trim().split(" ");
     return [/**/ Number(line[0]), Number(line[1]) /**/];
   });
-  console.log("result = ", {
-    numCities,
-    numRoads,
-    costOfLib,
-    costOfRoad,
-    edges,
-    remainingCommands
-  });
   return {
     numCities,
     numRoads,
@@ -208,7 +203,6 @@ const populateQuery = commands => {
 let parseInput = input => {
   //grab q, break input into [strings]
   let temp = input.trim().split("\n");
-  console.log("temp = ", temp);
   let queries = new Array(Number(temp[0])).fill(undefined);
   temp = temp.slice(1); //ignore q line
   //now populate your queries
@@ -218,7 +212,6 @@ let parseInput = input => {
     remainingCommands = query.remainingCommands;
     return query;
   });
-  // console.log("queries = ", queries);
   return queries;
 };
 //testing I/O == looks good
